@@ -39,6 +39,8 @@ do{                                 \
         pr_debug(fmt, ##args);      \
     }                               \
 }while(0)
+#else
+#define ISP_HW_DBG(fmt, args...) pr_debug(fmt, ##args)
 #endif
 #undef ISP_DBG
 #define ISP_DBG(fmt, args...) pr_debug(fmt, ##args)

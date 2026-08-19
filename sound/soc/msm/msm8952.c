@@ -3238,8 +3238,6 @@ static struct snd_soc_dai_link msm8952_tfa9895_dai_link[] = {
 };
 #endif
 
-#if (defined CONFIG_SND_SOC_MAX98925) || (defined CONFIG_SND_SOC_TFA98XX)
-
 void check_dai_link_for_smartpa(struct snd_soc_dai_link *dailink, int daicount, 
 								struct snd_soc_dai_link *pa_link, int pa_daicount)
 {
@@ -3307,7 +3305,6 @@ void check_dai_link_for_smartpa(struct snd_soc_dai_link *dailink, int daicount,
 			break;
 	}
 }
-#endif
 
 static struct snd_soc_dai_link msm8952_tas2560_dailink[] = {
 	{
@@ -3446,12 +3443,10 @@ static int msm8952_asoc_machine_probe(struct platform_device *pdev)
 	struct resource	*muxsel;
 	char *temp_str = NULL;
 	struct timespec ts = {0, 0};
-#if (defined CONFIG_SND_SOC_MAX98925) || (defined CONFIG_SND_SOC_TFA98XX)
 	const char *smart_pa = "speaker-pa";
 	const char *string = NULL;
 	struct snd_soc_dai_link *pa_link = NULL;
 	int pa_daicount = 0;
-#endif
 	audio_dsm_register();
 
 	pdata = devm_kzalloc(&pdev->dev,
