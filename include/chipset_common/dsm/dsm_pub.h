@@ -694,6 +694,10 @@ static inline struct dsm_client *dsm_register_client (struct dsm_dev *dev)
 {
 	return NULL;
 }
+static inline void dsm_unregister_client (struct dsm_client *dsm_client,struct dsm_dev *dev)
+{
+	return;
+}
 static inline struct dsm_client *dsm_find_client(char *dsm_name)
 {
 	return NULL;

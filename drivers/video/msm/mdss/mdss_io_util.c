@@ -378,6 +378,7 @@ int msm_dss_enable_vreg(struct dss_vreg *in_vreg, int num_vreg, int enable)
 	} else {
 		for (i = num_vreg-1; i >= 0; i--) {
 #ifndef CONFIG_LCDKIT_DRIVER
+#ifdef CONFIG_HUAWEI_KERNEL_LCD
 			if(huawei_lcd_is_factory_mode())
 			{
 				if(enable_PT_test)
@@ -401,6 +402,7 @@ int msm_dss_enable_vreg(struct dss_vreg *in_vreg, int num_vreg, int enable)
 							}
 					}
 			}
+#endif
 
 #ifdef CONFIG_HUAWEI_KERNEL_LCD
 			if(!strcmp(in_vreg[i].vreg_name, "lab") || !strcmp(in_vreg[i].vreg_name, "ibb"))

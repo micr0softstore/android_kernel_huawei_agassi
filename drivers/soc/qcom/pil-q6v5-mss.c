@@ -231,6 +231,7 @@ static void log_modem_sfr(int record_enabled)
 
 static void restart_modem(struct modem_data *drv)
 {
+#ifdef CONFIG_HUAWEI_MODEM_CRASH_LOG
     int is_pending = work_pending(&g_work_data->log_modem_work);
     log_modem_sfr(!is_pending);
     log_modem_crash_log(!is_pending);
@@ -242,6 +243,9 @@ static void restart_modem(struct modem_data *drv)
         log_modem_queue();
         pr_info("[log_modem_reset]put done \n");
     }
+#else
+    log_modem_sfr(0);
+#endif
 
     subsystem_restart_dev(drv->subsys);
 }

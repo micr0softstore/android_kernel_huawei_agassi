@@ -5392,8 +5392,10 @@ static void increment_aicl_count(struct smbchg_chip *chip)
 		if (bad_charger) {
 			pr_smb(PR_MISC,
 				"setting usb psy health UNSPEC_FAILURE\n");
+#ifdef CONFIG_HUAWEI_PMU_DSM
 			dsm_post_chg_bms_info(DSM_CHG_BAD_CHARGER,
 				"very weak charger\n");
+#endif
 			rc = power_supply_set_health_state(chip->usb_psy,
 					POWER_SUPPLY_HEALTH_UNSPEC_FAILURE);
 			if (rc)
@@ -6737,8 +6739,10 @@ static irqreturn_t chg_error_handler(int irq, void *_chip)
 			set_property_on_fg(chip,
 					POWER_SUPPLY_PROP_SAFETY_TIMER_EXPIRED,
 					1);
+#ifdef CONFIG_HUAWEI_PMU_DSM
 			dsm_post_chg_bms_info(DSM_CHG_TIMEOUT,
 						"Charging timeout\n");
+#endif
 		}
 
 	}
@@ -7071,13 +7075,17 @@ static irqreturn_t src_detect_handler(int irq, void *_chip)
 		/* Stay awake during usb is inserted */
 		smbchg_stay_awake(chip, PM_CHARGING_CHECK);
 		update_usb_status(chip, usb_present, 0);
+#ifdef CONFIG_LOG_JANK
 		LOG_JANK_D(JLID_USBCHARGING_START,"%s","JL_USBCHARGING_START");
+#endif
 	} else {
 		/* Clear the awake flag when usb is removed */
 		smbchg_relax(chip, PM_CHARGING_CHECK);
 		update_usb_status(chip, 0, false);
 		chip->aicl_irq_count = 0;
+#ifdef CONFIG_LOG_JANK
 		LOG_JANK_D(JLID_USBCHARGING_END,"%s","JL_USBCHARGING_END");
+#endif
 	}
 out:
 	return IRQ_HANDLED;

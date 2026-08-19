@@ -3706,7 +3706,9 @@ static void fg_cap_learning_post_process(struct fg_chip *chip)
 {
 	int64_t max_inc_val, min_dec_val, old_cap;
 	bool batt_missing = is_battery_missing(chip);
+#ifdef CONFIG_HUAWEI_PMU_DSM
     char learned_cc_info[DSM_POST_BUF_SIZE] = {0,};
+#endif
 
 	if (batt_missing) {
 		pr_err("Battery is missing!\n");
@@ -3761,13 +3763,17 @@ static void fg_cap_learning_post_process(struct fg_chip *chip)
 		pr_info("final cc_uah = %lld, learned capacity %lld -> %lld uah\n",
 				chip->learning_data.cc_uah,
 				old_cap, chip->learning_data.learned_cc_uah);
+#ifdef CONFIG_HUAWEI_PMU_DSM
 	snprintf(learned_cc_info, DSM_POST_BUF_SIZE, "learned cc: %ld, chg_cycle:%d\n",
 				(long)chip->learning_data.learned_cc_uah,
 				fg_get_chg_cycle_count(chip));
+#endif
 	pr_info("new learned cc: %ld, chg_cycle:%d\n",
 			(long)chip->learning_data.learned_cc_uah,
 			fg_get_chg_cycle_count(chip));
+#ifdef CONFIG_HUAWEI_PMU_DSM
 	dsm_post_chg_bms_info(DSM_BMS_LEARN_CC, learned_cc_info);
+#endif
 }
 
 static int get_vbat_est_diff(struct fg_chip *chip)
@@ -6500,8 +6506,10 @@ wait:
 	}
 	if (strcmp("itech_3000mah", batt_type_str) == 0) {
 		pr_info("no batt profile matched, use itech_3000mah\n");
+#ifdef CONFIG_HUAWEI_PMU_DSM
 		dsm_post_chg_bms_info(DSM_BMS_NOT_STANDARD_BATTERY,
 					"batt id not matched\n");
+#endif
 	}
 
 	if (!chip->batt_profile)

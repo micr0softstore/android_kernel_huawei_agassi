@@ -174,6 +174,7 @@
 
 #define PON_DIS_PWRKPD_RESET 1
 
+#define QPNP_LONG_PRESS_DELAY			(0)
 
 #ifdef CONFIG_HUAWEI_PMU_DSM
 #define REASON_MAX		16
@@ -202,8 +203,6 @@
 #define LDO_OCP_NO4			3
 #define LDO_OCP_NO18			17
 #define LDO_OCP_NO22			21
-
-#define QPNP_LONG_PRESS_DELAY			(0)
 
 /*pmu dsm client definition */
 struct dsm_dev dsm_pmu = {
